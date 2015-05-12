@@ -3,6 +3,8 @@
 
     <string name="app_name">Flick</string>
     <string name="action_settings">Settings</string>
+    <string name="search">Search</string>
+    <string name="action_search_hint">Hint</string>
     <string name="app_title12">Flick Application</string>
     <string name="label_view">View</string>
     <string name="label_background">背景</string>
@@ -29,7 +31,7 @@
     <string name="label_right">RIGHT</string>
     <string name="label_include_normal">通常レイアウトを使った再利用</string>
     <string name="label_include_merge">Mergeを使った再利用</string>
-    <string name="label_even_horizonal">横に均等</string>
+    <string name="label_even_horizonal">ここに素材を配置</string>
     <string name="label_even_vertical">縦に均等</string>
     <string name="ch0313_drawer_open">Open navigation drawer</string>
     <string name="ch0313_drawer_close">Close navigation drawer</string>
