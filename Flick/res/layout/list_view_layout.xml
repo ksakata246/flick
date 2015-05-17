@@ -1,0 +1,26 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+
+    <fragment
+        android:id="@+id/booklistFragment1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        class="jp.co.se.android.recipe.chapter03.MyListFragment" />
+
+    <View
+        android:layout_width="5dp"
+        android:layout_height="match_parent"
+        android:background="#008800" />
+
+    <fragment
+        android:id="@+id/booklistFragment2"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        class="jp.co.se.android.recipe.chapter03.MyListFragment" />
+
+</LinearLayout>
