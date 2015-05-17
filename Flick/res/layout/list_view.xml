@@ -4,10 +4,9 @@
     android:layout_height="match_parent"
     android:orientation="horizontal" >
 
-    <fragment
-        android:id="@+id/booklistFragment1"
+    <LinearLayout
+        android:id="@+id/list_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        class="jp.co.se.android.recipe.chapter03.MyListFragment" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>
