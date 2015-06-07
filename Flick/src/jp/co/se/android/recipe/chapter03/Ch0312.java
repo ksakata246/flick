@@ -1,23 +1,29 @@
 package jp.co.se.android.recipe.chapter03;
 
-import android.app.SearchManager;
-import android.app.SearchableInfo;
-import android.content.Context;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.os.StrictMode;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
-import android.view.Gravity;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class Ch0312 extends FragmentActivity implements OnQueryTextListener {
 
@@ -30,12 +36,12 @@ public class Ch0312 extends FragmentActivity implements OnQueryTextListener {
 		mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
 		mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
 
-		//ここのクラスで場合分けができる！
+		// ここのクラスで場合分けができる！
 		mTabHost.addTab(mTabHost.newTabSpec("tab1").setIndicator("Tab1", null),
 				FragmentTab1.class, null);
-        mTabHost.addTab(
-                mTabHost.newTabSpec("tab2").setIndicator("Tab 2", null),
-                FragmentTab2.class, null);
+		mTabHost.addTab(
+				mTabHost.newTabSpec("tab2").setIndicator("Tab 2", null),
+				FragmentTab2.class, null);
 
 	}
 
@@ -62,7 +68,80 @@ public class Ch0312 extends FragmentActivity implements OnQueryTextListener {
 	@Override
 	public boolean onQueryTextSubmit(String query) {
 		// TODO ひとまず実装 入力されたクエリ文字列をトースト表示しておく
-		Toast.makeText(this, query, Toast.LENGTH_SHORT).show();
+		// Toast.makeText(this, query, Toast.LENGTH_SHORT).show();
+
+		// HttpResponse生成
+		HttpResponse httpResponse = null;
+		// memo Thread のポリシーに、どの操作を違反とし、違反があったときに何をするかを定義する
+		StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+				.permitAll().build());
+
+		// 検索の実装(URL定義)
+		// String html =
+		// "https://www.google.co.jp/?gfe_rd=cr&ei=XMhbVauEF4jN8gfgjoCABw#q=";
+		String html = "https://www.googleapis.com/customsearch/v1?key=AIzaSyBB_DJ_Q7MWEyxyGRC_uJDEvy3yxysUlPU&cx=006313022508619145881:gboz0irl5wq&q=";
+
+		// URL生成
+		try {
+			// UTF-8エンコード対応
+			html += URLEncoder.encode(query, "UTF-8");
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Ecxeption対応
+			e1.printStackTrace();
+		}
+
+		HttpUriRequest httpGet = new HttpGet(html);
+		DefaultHttpClient defaultHttpClient = new DefaultHttpClient();
+
+		try {
+			httpResponse = defaultHttpClient.execute(httpGet);
+
+		} catch (Exception e) {
+			// TODO Log実装
+			Log.e("HttpResponse", "Error Execute");
+		}
+
+		if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+			try {
+				// レスポンスデータをjsonオブジェクトへ変換する
+				JSONObject json = new JSONObject(
+						EntityUtils.toString(httpResponse.getEntity()));
+				// jsonオブジェクトを配列とする
+				JSONArray jsonArray = json.getJSONArray("items");
+
+				// DefaultHttpClient shutdown
+				defaultHttpClient.getConnectionManager().shutdown();
+				// Custom Class list creates to store the feed data
+				List<FlickUrlSearchResult> objects = new ArrayList<FlickUrlSearchResult>();
+
+				//後で消す
+				//なんか10件しか表示されない
+				String test = String.valueOf(jsonArray.length());
+				Log.v("jsonlength", test);
+				
+				for (int i = 0; i < jsonArray.length(); ++i) {
+					// jsonarray から JSONObjectを配列の長さ分取得する
+					JSONObject jsonObject = jsonArray.getJSONObject(i);
+					String url = "";
+					
+					try {
+						// URL of mobile gets from JSONObject
+						url = jsonObject.getString("displayLink");
+						// Log.v("TAG", "url1");
+					} catch (JSONException e) {
+						Log.v("JSONObject", "failed");
+					}
+					// ListView at the made object added
+					objects.add(new FlickUrlSearchResult(url));
+				}
+
+			} catch (JSONException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
 		return false;
 	}
 
