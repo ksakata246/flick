@@ -112,7 +112,7 @@ public class Ch0312 extends FragmentActivity implements OnQueryTextListener {
 				// DefaultHttpClient shutdown
 				defaultHttpClient.getConnectionManager().shutdown();
 				// Custom Class list creates to store the feed data
-				List<FlickUrlSearchResult> objects = new ArrayList<FlickUrlSearchResult>();
+				List<UrlSearchResultVO> objects = new ArrayList<UrlSearchResultVO>();
 
 				//後で消す
 				//なんか10件しか表示されない
@@ -132,7 +132,7 @@ public class Ch0312 extends FragmentActivity implements OnQueryTextListener {
 						Log.v("JSONObject", "failed");
 					}
 					// ListView at the made object added
-					objects.add(new FlickUrlSearchResult(url));
+					objects.add(new UrlSearchResultVO(url));
 				}
 
 			} catch (JSONException e) {
