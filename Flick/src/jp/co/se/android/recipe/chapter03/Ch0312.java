@@ -122,17 +122,38 @@ public class Ch0312 extends FragmentActivity implements OnQueryTextListener {
 				for (int i = 0; i < jsonArray.length(); ++i) {
 					// jsonarray から JSONObjectを配列の長さ分取得する
 					JSONObject jsonObject = jsonArray.getJSONObject(i);
-					String url = "";
+					String displayLink = "";
+					String htmlFormattedUrl = "";
+					String title = "";
+					String cacheId = "";
+					String formattedUrl = "";
+					String link = "";
+					String htmlTitle = "";
+					String snippet = "";
+					String kind = "";
+					String htmlSnippet = "";
 					
 					try {
 						// URL of mobile gets from JSONObject
-						url = jsonObject.getString("displayLink");
+						displayLink = jsonObject.getString("displayLink");
+						htmlFormattedUrl = jsonObject.getString("htmlFormattedUrl");
+						title = jsonObject.getString("title");
+						cacheId = jsonObject.getString("cacheId");
+						formattedUrl = jsonObject.getString("formattedUrl");
+						link = jsonObject.getString("link");
+						htmlTitle = jsonObject.getString("htmlTitle");
+						snippet = jsonObject.getString("snippet");
+						htmlSnippet = jsonObject.getString("htmlSnippet");
+						kind = jsonObject.getString("kind");
+						
 						// Log.v("TAG", "url1");
 					} catch (JSONException e) {
 						Log.v("JSONObject", "failed");
 					}
 					// ListView at the made object added
-					objects.add(new UrlSearchResultVO(url));
+					objects.add(new UrlSearchResultVO(displayLink,
+							htmlFormattedUrl, title, cacheId, formattedUrl,
+							link, htmlTitle, snippet, htmlSnippet, kind));
 				}
 
 			} catch (JSONException e) {
