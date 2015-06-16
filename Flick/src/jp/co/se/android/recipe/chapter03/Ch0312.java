@@ -112,48 +112,34 @@ public class Ch0312 extends FragmentActivity implements OnQueryTextListener {
 				// DefaultHttpClient shutdown
 				defaultHttpClient.getConnectionManager().shutdown();
 				// Custom Class list creates to store the feed data
-				List<UrlSearchResultVO> objects = new ArrayList<UrlSearchResultVO>();
+				List<UrlSearchResultVO> usrVOList = new ArrayList<UrlSearchResultVO>();
 
 				//後で消す
-				//なんか10件しか表示されない
+				//なんか10件くらいしか表示されない
 				String test = String.valueOf(jsonArray.length());
 				Log.v("jsonlength", test);
 				
 				for (int i = 0; i < jsonArray.length(); ++i) {
 					// jsonarray から JSONObjectを配列の長さ分取得する
 					JSONObject jsonObject = jsonArray.getJSONObject(i);
-					String displayLink = "";
-					String htmlFormattedUrl = "";
-					String title = "";
-					String cacheId = "";
-					String formattedUrl = "";
-					String link = "";
-					String htmlTitle = "";
-					String snippet = "";
-					String kind = "";
-					String htmlSnippet = "";
-					
+					UrlSearchResultVO usrVO = new UrlSearchResultVO();					
 					try {
 						// URL of mobile gets from JSONObject
-						displayLink = jsonObject.getString("displayLink");
-						htmlFormattedUrl = jsonObject.getString("htmlFormattedUrl");
-						title = jsonObject.getString("title");
-						cacheId = jsonObject.getString("cacheId");
-						formattedUrl = jsonObject.getString("formattedUrl");
-						link = jsonObject.getString("link");
-						htmlTitle = jsonObject.getString("htmlTitle");
-						snippet = jsonObject.getString("snippet");
-						htmlSnippet = jsonObject.getString("htmlSnippet");
-						kind = jsonObject.getString("kind");
-						
-						// Log.v("TAG", "url1");
+						usrVO.setDisplayLink(jsonObject.getString("displayLink"));
+						usrVO.setHtmlFormattedUrl(jsonObject.getString("htmlFormattedUrl"));
+						usrVO.setTitle(jsonObject.getString("title"));
+						usrVO.setCacheId(jsonObject.getString("cacheId"));
+						usrVO.setFormattedUrl(jsonObject.getString("formattedUrl"));
+						usrVO.setLink(jsonObject.getString("link"));
+						usrVO.setHtmlTitle(jsonObject.getString("htmlTitle"));
+						usrVO.setSnippet(jsonObject.getString("snippet"));
+						usrVO.setHtmlSnippet(jsonObject.getString("htmlSnippet"));
+						usrVO.setKind(jsonObject.getString("kind"));						
 					} catch (JSONException e) {
 						Log.v("JSONObject", "failed");
 					}
 					// ListView at the made object added
-					objects.add(new UrlSearchResultVO(displayLink,
-							htmlFormattedUrl, title, cacheId, formattedUrl,
-							link, htmlTitle, snippet, htmlSnippet, kind));
+					usrVOList.add(usrVO);
 				}
 
 			} catch (JSONException e) {

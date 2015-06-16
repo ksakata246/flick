@@ -32,22 +32,7 @@ public class UrlSearchResultVO implements Serializable {
 
 	
 	//コンストラクタ
-	public UrlSearchResultVO(String displayLink2, String htmlFormattedUrl2,
-			String title2, String cacheId2, String formattedUrl2, String link2,
-			String htmlTitle2, String snippet2, String htmlSnippet2,
-			String kind2) {
-		this.displayLink = displayLink2;
-		this.htmlFormattedUrl = htmlFormattedUrl2;
-		this.title = title2;
-		this.cacheId = cacheId2;
-		this.formattedUrl = formattedUrl2;
-		this.link = link2;
-		this.htmlTitle = htmlTitle2;
-		this.snippet = snippet2;
-		this.htmlSnippet = htmlSnippet2;
-		this.kind = kind2;		
-		
-	}
+	public UrlSearchResultVO() {}
 
 	public void setDisplayLink(String displayLink) {
 		this.displayLink = displayLink;
