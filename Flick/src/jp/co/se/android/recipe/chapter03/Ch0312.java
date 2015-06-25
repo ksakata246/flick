@@ -16,10 +16,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
 import android.widget.SearchView;
@@ -33,6 +36,10 @@ public class Ch0312 extends FragmentActivity implements OnQueryTextListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ch0312_main);
+		adjustTab();
+	}
+
+	private void adjustTab() {
 		mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
 		mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
 
@@ -114,27 +121,31 @@ public class Ch0312 extends FragmentActivity implements OnQueryTextListener {
 				// Custom Class list creates to store the feed data
 				List<UrlSearchResultVO> usrVOList = new ArrayList<UrlSearchResultVO>();
 
-				//後で消す
-				//なんか10件くらいしか表示されない
+				// 後で消す
+				// なんか10件くらいしか表示されない
 				String test = String.valueOf(jsonArray.length());
 				Log.v("jsonlength", test);
-				
+
 				for (int i = 0; i < jsonArray.length(); ++i) {
 					// jsonarray から JSONObjectを配列の長さ分取得する
 					JSONObject jsonObject = jsonArray.getJSONObject(i);
-					UrlSearchResultVO usrVO = new UrlSearchResultVO();					
+					UrlSearchResultVO usrVO = new UrlSearchResultVO();
 					try {
 						// URL of mobile gets from JSONObject
-						usrVO.setDisplayLink(jsonObject.getString("displayLink"));
-						usrVO.setHtmlFormattedUrl(jsonObject.getString("htmlFormattedUrl"));
+						usrVO.setDisplayLink(jsonObject
+								.getString("displayLink"));
+						usrVO.setHtmlFormattedUrl(jsonObject
+								.getString("htmlFormattedUrl"));
 						usrVO.setTitle(jsonObject.getString("title"));
 						usrVO.setCacheId(jsonObject.getString("cacheId"));
-						usrVO.setFormattedUrl(jsonObject.getString("formattedUrl"));
+						usrVO.setFormattedUrl(jsonObject
+								.getString("formattedUrl"));
 						usrVO.setLink(jsonObject.getString("link"));
 						usrVO.setHtmlTitle(jsonObject.getString("htmlTitle"));
 						usrVO.setSnippet(jsonObject.getString("snippet"));
-						usrVO.setHtmlSnippet(jsonObject.getString("htmlSnippet"));
-						usrVO.setKind(jsonObject.getString("kind"));						
+						usrVO.setHtmlSnippet(jsonObject
+								.getString("htmlSnippet"));
+						usrVO.setKind(jsonObject.getString("kind"));
 					} catch (JSONException e) {
 						Log.v("JSONObject", "failed");
 					}
@@ -142,6 +153,13 @@ public class Ch0312 extends FragmentActivity implements OnQueryTextListener {
 					usrVOList.add(usrVO);
 				}
 
+				// ここでAdapter作って毎回リストに入れた方がいい。
+				UrlSearchResultAdapter usrAdapter = new UrlSearchResultAdapter(this, 0, usrVOList);
+				// インスタンス作成→ここがからっぽだからnullになってる
+				android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+				FragmentTransaction ft = fragmentManager.beginTransaction();
+				MyListFragment m = new MyListFragment(usrAdapter);
+				ft.replace(R.id.list_container, m).commit();
 			} catch (JSONException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
