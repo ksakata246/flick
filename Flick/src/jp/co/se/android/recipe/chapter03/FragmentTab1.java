@@ -42,6 +42,7 @@ public class FragmentTab1 extends Fragment {
 
 		List<UrlSearchResultVO> usrVOList = new ArrayList<UrlSearchResultVO>();
 		UrlSearchResultAdapter usrAdapter = new UrlSearchResultAdapter(getActivity(), 0, usrVOList);
+		//ここの引数はいらない
 		changeRusultData(usrAdapter);
 	}
 
