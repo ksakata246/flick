@@ -29,7 +29,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
 		}
 
 		button = (Button) findViewById(R.id.button_in_fragment_main);
-//		button.setOnClickListener(this);
+		button.setOnClickListener(this);
 
 	}
 
