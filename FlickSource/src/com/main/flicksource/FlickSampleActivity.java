@@ -1,5 +1,10 @@
 package com.main.flicksource;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import com.main.flicksource.HttpSampleActivity.AsyncCl;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -30,7 +35,7 @@ public class FlickSampleActivity extends Activity {
 		mViewPager.setAdapter(mPagerAdapter);
 	}
 
-	private class FlickTouchListener implements View.OnTouchListener {
+	protected class FlickTouchListener implements View.OnTouchListener {
 		// 最後にタッチされた座標
 		private float startTouchX;
 		private float startTouchY;
@@ -79,7 +84,12 @@ public class FlickSampleActivity extends Activity {
 						if ((startTouchY - nowTouchedY) > (startTouchX - nowTouchedX)) {
 							if (startTouchY > nowTouchedY + adjust) {
 								Log.v("Flick", "--上");
-								// 上フリック時の処理を記述する
+								try {
+									asyncDoPOST();
+								} catch (MalformedURLException e) {
+									// TODO 自動生成された catch ブロック
+									e.printStackTrace();
+								}
 							}
 						} else if ((startTouchY - nowTouchedY) < (startTouchX - nowTouchedX)) {
 							if (startTouchX > nowTouchedX + adjust) {
@@ -92,6 +102,12 @@ public class FlickSampleActivity extends Activity {
 							if (startTouchY > nowTouchedY + adjust) {
 								Log.v("Flick", "--上");
 								// 上フリック時の処理を記述する
+								try {
+									asyncDoPOST();
+								} catch (MalformedURLException e) {
+									// TODO 自動生成された catch ブロック
+									e.printStackTrace();
+								}
 							}
 						} else if ((startTouchY - nowTouchedY) < (nowTouchedX - startTouchX)) {
 							if (startTouchX < nowTouchedX + adjust) {
@@ -144,6 +160,12 @@ public class FlickSampleActivity extends Activity {
 				break;
 			}
 			return (true);
+		}
+
+		private void asyncDoPOST() throws MalformedURLException {
+			HttpSampleActivity h = new HttpSampleActivity();
+			AsyncCl aul = h.new AsyncCl(this, "POST");
+			aul.execute();
 		}
 
 	}
