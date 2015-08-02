@@ -24,6 +24,8 @@
         </activity>
         <activity android:name="com.main.flicksource.MainActivity" >
         </activity>
+        <activity android:name="com.main.flicksource.FlickSampleActivity" >
+        </activity>
     </application>
 
 </manifest>
