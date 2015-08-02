@@ -16,6 +16,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
 
 	// 遷移用のボタン
 	private Button button;
+	private Button button1;
+	private Button button2;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,12 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
 		button = (Button) findViewById(R.id.button_in_fragment_main);
 		button.setOnClickListener(this);
 
+		button1 = (Button) findViewById(R.id.button_for_tinder);
+		button1.setOnClickListener(this);
+		
+		button2 = (Button) findViewById(R.id.button_for_http);
+		button2.setOnClickListener(this);
+		
 	}
 
 	@Override
@@ -79,6 +87,18 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
 					FlickSampleActivity.class);
 			startActivity(intent);
 			break;
+		case R.id.button_for_tinder:
+			// ボタン押すとTinderテスト用の画面に遷移する
+			Intent intent2 = new Intent(getApplication(),
+					TinderSampleActivity.class);
+			startActivity(intent2);
+			break;
+		case R.id.button_for_http:
+		// ボタン押すとTinderテスト用の画面に遷移する
+		Intent intent3 = new Intent(getApplication(),
+				HttpSampleActivity.class);
+		startActivity(intent3);
+		break;
 		}
 	}
 

@@ -168,7 +168,16 @@ public class FlickSampleActivity extends Activity {
 				ImageView imageView = (ImageView) layout
 						.findViewById(R.id.flick_test);
 				imageView.setImageBitmap(bmp1);
+			} else if(position == 1){
+				// ImageViewに画像をセット
+				Resources r = getResources();
+				Bitmap bmp1 = BitmapFactory.decodeResource(r,
+						R.drawable.flick_image3);
+				ImageView imageView = (ImageView) layout
+						.findViewById(R.id.flick_test);
+				imageView.setImageBitmap(bmp1);
 			}
+			
 			
 			int i = 0;
 			
